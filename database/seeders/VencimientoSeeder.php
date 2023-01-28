@@ -13,6 +13,31 @@ class VencimientoSeeder extends Seeder
      */
     public function run()
     {
-        //
+        $vencimiento = [
+            [
+                'codigo'=>'L0001',
+                'cantidad'=>11,
+                'fechaVencimiento'=>null,
+                'vencido'=>false,
+                'stock'=>11,
+                'producto_id'=>1  
+            ],
+            [
+                'codigo'=>'L0002',
+                'cantidad'=>3,
+                'fechaVencimiento'=>null,
+                'vencido'=>false,
+                'stock'=>3,
+                'producto_id'=>2 
+            ],
+            [
+                'codigo'=>'L0003',
+                'cantidad'=>3,
+                'fechaVencimiento'=>null,
+                'vencido'=>false,
+                'stock'=>3,
+                'producto_id'=>1  
+            ]
+        ];
     }
 }

@@ -17,10 +17,10 @@ class CreateVencimientosTable extends Migration
             $table->id();
             $table->string('codigo');//codigo lote del producto
             $table->unsignedInteger('cantidad');
-            $table->date('fechaVencimiento');
+            $table->date('fechaVencimiento')->nullable();
             $table->boolean('vencido');
-            $table->unsignedInteger('cantidadVencido')->default(0);
             $table->unsignedInteger('stock');
+            $table->boolean('finalizado')->default(false);
             $table->foreignId('producto_id')->references('id')->on('productos');
             $table->timestamps();
         });

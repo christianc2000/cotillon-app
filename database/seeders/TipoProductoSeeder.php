@@ -16,13 +16,16 @@ class TipoProductoSeeder extends Seeder
     {
         $tipoproductos = [
             [
-                'tipo'=>'Canasta'
+                'tipo' => 'otro'
             ],
             [
-                'tipo'=>'Piñata'
+                'tipo' => 'Canasta'
             ],
             [
-                'tipo'=>'Sombrero'
+                'tipo' => 'Piñata'
+            ],
+            [
+                'tipo' => 'Sombrero'
             ],
         ];
         foreach ($tipoproductos as $tp) {

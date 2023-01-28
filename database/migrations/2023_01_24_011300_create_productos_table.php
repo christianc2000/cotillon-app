@@ -18,8 +18,8 @@ class CreateProductosTable extends Migration
             $table->string('nombre');
             $table->string('imagen');
             $table->string('contenido');
-            $table->unsignedInteger('stockVentaUnitario')->nullable();
-            $table->unsignedInteger('stockReservaUnitario')->nullable();
+            $table->unsignedInteger('stock')->nullable();
+            //$table->unsignedInteger('stockReservaUnitario')->nullable();
             $table->foreignId('tematica_id')->references('id')->on('tematicas');
             $table->foreignId('tipo_producto_id')->references('id')->on('tipo_productos');
             $table->timestamps();

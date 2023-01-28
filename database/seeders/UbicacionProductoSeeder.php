@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Ubicacion;
-use App\Models\UbicacionProducto;
+//use App\Models\Ubicacion;
+//use App\Models\UbicacionProducto;
 use Illuminate\Database\Seeder;
 
 class UbicacionProductoSeeder extends Seeder
@@ -42,8 +42,8 @@ class UbicacionProductoSeeder extends Seeder
                 'ubicacion_id' => 4
             ],
         ];
-        foreach ($ubicacionproductos as $up) {
-            UbicacionProducto::create($up);
-        }
+        //foreach ($ubicacionproductos as $up) {
+          //  UbicacionProducto::create($up);
+       // }
     }
 }

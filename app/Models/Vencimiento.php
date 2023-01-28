@@ -11,9 +11,7 @@ class Vencimiento extends Model
     protected $fillable = [
         'codigo',
         'cantidad',
-        'fechaVencimiento',
         'vencido',
-        'cantidadVencido',
         'stock',
         'producto_id'
     ];

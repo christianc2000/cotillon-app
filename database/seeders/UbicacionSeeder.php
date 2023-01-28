@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Ubicacion;
+//use App\Models\Ubicacion;
 use Illuminate\Database\Seeder;
 
 class UbicacionSeeder extends Seeder
@@ -42,8 +42,8 @@ class UbicacionSeeder extends Seeder
             ],
             
         ];
-        foreach ($ubicacions as $u) {
-            Ubicacion::create($u);
-        }
+      //  foreach ($ubicacions as $u) {
+        //    Ubicacion::create($u);
+        //}
     }
 }

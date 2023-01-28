@@ -22,7 +22,7 @@ class PrecioSeeder extends Seeder
             ],
             [
                 'precio' => 12,
-                'fecha_finalizado'=>'20/01/2023',
+                'fecha_finalizado'=>'2023-01-20',
                 'habilitado'=>false,
                 'tipoPrecio' => 'U', //UNITARIO
                 'producto_id' => 1,

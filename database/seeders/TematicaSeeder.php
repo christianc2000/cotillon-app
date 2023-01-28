@@ -16,6 +16,10 @@ class TematicaSeeder extends Seeder
     {
         $tematicas = [
             [
+                'nombre' => 'otro',
+                'imagen' => 'https://img.freepik.com/foto-gratis/gradiente-gris-negro-falta-definicion-llanura-lujo-abstracta-utilizado-como-pared-estudio-fondo-exhibir-sus-productos_1258-63747.jpg'
+            ],
+            [
                 'nombre' => 'Frozen',
                 'imagen' => 'https://img2.rtve.es/v/2170774?w=1600&preview=1385454850455.jpg'
             ],
