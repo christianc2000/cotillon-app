@@ -7,6 +7,112 @@
 @stop
 
 @section('content')
+    <!-- Modal Precio Producto-->
+    <div class="modal fade" id="modalPrecioProducto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 id="exampleModalLabel">PRECIO PRODUCTO</h1>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <form id="form-update" method="POST">
+                    @csrf
+                    <div class="modal-body" id="modal-precio">
+                        <x-adminlte-select id="scontenedores" name="contenedor_producto_id" label="CONTENEDORES"
+                            label-class="text-lightblue" igroup-size="lg" style="text-size:10px">
+                            <x-slot name="prependSlot">
+                                <div class="input-group-text bg-gradient-info">
+                                    <i class="fa fa-solid fa-calendar"></i>
+                                </div>
+                            </x-slot>
+                            <!--  <button class="btn btn-success" type="submit">OK</button>-->
+                        </x-adminlte-select>
+                        <div class="row">
+                            <div class="col-4">
+                                <label  for="">Precio Actual</label>
+                                <p type="text" class="form-control" id="pactual" name='precioActual'>
+                            </div>
+                            <div class="col-4">
+                                <label  for="">Precio Anterior</label>
+                                <p type="text" class="form-control" id="panterior" name='precioAnterior'>
+                            </div>
+                            <div class="col-4">
+                                <label  for="">Precio Sugerido</label>
+                                <p type="text" class="form-control" id="psugerido" name='precioSugerido'>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-success">Guardar</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+    <!-- Modal Editar Producto-->
+    <div class="modal fade" id="modalEditarProducto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 id="exampleModalLabel">EDITAR PRODUCTO</h1>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <form id="form-update" method="POST" enctype="multipart/form-data">
+                    @method('put')
+                    @csrf
+                    <div class="modal-body">
+
+                        <x-adminlte-input id="nombre" name="nombre" label="Nombre" required />
+                        <x-adminlte-input id="contenido" name="contenido" label="Contenido" required />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <x-adminlte-select id="tematica" name="tematica_id" label="TEMATICA"
+                                    label-class="text-lightblue" igroup-size="lg" style="text-size:10px">
+                                    <x-slot name="prependSlot">
+                                        <div class="input-group-text bg-gradient-info">
+                                            <i class="fa fa-solid fa-calendar"></i>
+                                        </div>
+                                    </x-slot>
+                                    @foreach ($tematicas as $tematica)
+                                        <option value={{ $tematica->id }}>{{ $tematica->nombre }}</option>
+                                    @endforeach
+                                    <!--  <button class="btn btn-success" type="submit">OK</button>-->
+                                </x-adminlte-select>
+                            </div>
+                            <div class="col-md-6">
+                                <x-adminlte-select id="tipop" name="tipo_producto_id" label="TIPO PRODUCTO"
+                                    label-class="text-lightblue" igroup-size="lg">
+                                    <x-slot name="prependSlot">
+                                        <div class="input-group-text bg-gradient-info">
+                                            <i class="fa fa-solid fa-calendar"></i>
+                                        </div>
+                                    </x-slot>
+                                    @foreach ($tproductos as $tproducto)
+                                        <option value={{ $tproducto->id }}>{{ $tproducto->tipo }}</option>
+                                    @endforeach
+                                    <!--  <button class="btn btn-success" type="submit">OK</button>-->
+                                </x-adminlte-select>
+                            </div>
+                        </div>
+                        <input class="form-control my-2" type="file" id="imagen" name="imagen" accept="image/*">
+                        <div class="contenedor" id="preview"
+                            style=" background: #D9D9D9; border: solid 3px #6C648B; text-align:center;">
+                            <img id="imagenPrevisualizacion2" style=" margin:0px auto;">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-success">Guardar</button>
+
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
     <div class="card">
         @if (count($errors->all()) > 0)
             <div class="alert alert-danger m-1">
@@ -18,8 +124,7 @@
         @endif
         <div class="card-body" style="width: 100%">
             @if (session('status'))
-                <div
-                    class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100  dark:bg-green-700 dark:text-green-100 rounded">
+                <div class="alert alert-success">
                     {{ session('status') }}
                 </div>
             @endif
@@ -30,8 +135,8 @@
                     {{ session('eliminar') }}
                 </div>
             @endif
-            <button type="button" class="btn btn-primary mb-2" style="background: #6BBAA7; border:white" data-toggle="modal"
-                data-target="#modalCrearProducto">
+            <button type="button" class="btn btn-primary mb-2" style="background: #6BBAA7; border:white"
+                data-toggle="modal" data-target="#modalCrearProducto">
                 Crear Producto
             </button>
             <table id="productos" class="table table-striped" style="width:100%; font-size: 14px;">
@@ -71,10 +176,13 @@
                             <td>
                                 <section class="flex-container">
                                     <div class="caja">
-                                        <a href="" class="btn"
+
+                                        <button type="button" class="btn btn-edit" id="{{ $producto->id }}"
+                                            data-toggle="modal" data-target="#modalEditarProducto"
                                             style="background: #FBA100; border: white; width: 100%">
+
                                             <i class="fa fa-edit fa-1x" style="color:black"></i>
-                                        </a>
+                                        </button>
                                     </div>
                                     <div class="caja">
                                         <a href="" class="btn"
@@ -83,10 +191,13 @@
                                         </a>
                                     </div>
                                     <div class="caja">
-                                        <a href="" class="btn"
-                                            style="background: #FBA100; border: white;  width: 100%">
+                                        <button type="button" class="btn btn-precio" id="{{ $producto->id }}"
+                                            data-contenedores="{{ $producto->contenedorProductos }}"
+                                            data-precio="{{ $producto->precios }}" data-toggle="modal"
+                                            data-target="#modalPrecioProducto"
+                                            style="background: #FBA100; border: white; width: 100%">
                                             <i class="fa fa-dollar-sign fa-1x" style="color:black"></i>
-                                        </a>
+                                        </button>
                                     </div>
                                 </section>
                                 <section class="flex-container">
@@ -113,10 +224,10 @@
 
     <!-- Button trigger modal -->
 
-    <!-- Modal -->
-    <div class="modal fade" id="modalCrearProducto" role="dialog" tabindex="-1" aria-labelledby="exampleModalLabel"
+    <!-- Modal CREAR PRODUCTO -->
+    <div class="modal fade" id="modalCrearProducto" tabindex="-1" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 id="exampleModalLabel">CREAR PRODUCTO</h1>
@@ -158,8 +269,9 @@
                             </div>
                         </div>
                         <input class="form-control my-2" type="file" id="foto" name="imagen" accept="image/*">
-                        <div style="height: 300px;width: 300px; background: #D9D9D9; border: solid 3px #6C648B">
-                            <img id="imagenPrevisualizacion">
+                        <div class="contenedor"
+                            style="background: #D9D9D9; border: solid 3px #6C648B; text-align: center">
+                            <img id="imagenPrevisualizacion" style=" margin:0px auto;">
                         </div>
 
                         <div class="modal-footer">
@@ -170,19 +282,27 @@
             </div>
         </div>
     </div>
+    <!-- Modal EDITAR PRODUCTO-->
+    <!-- Modal -->
+
+
 @stop
 
 @section('css')
-    <link rel="stylesheet" href="/css/admin_custom.css">
-
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
-        integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous" />
+    <!-- <link rel="stylesheet" href="/css/admin_custom.css">-->
+    <link rel="stylesheet" href="{{ URL::asset('css/app.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href=" https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css">
     <style>
+        .contenedor {
+            width: 300px;
+            height: 300px;
+
+        }
+
         img {
+
             object-fit: cover;
-            width: 100%;
             height: 100%;
         }
 
@@ -201,6 +321,7 @@
 @stop
 
 @section('js')
+
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
@@ -226,7 +347,105 @@
     <script>
         $(document).ready(function() {
             console.log("hola mundo");
+            //realizar función buscar por id
+            function buscarId(v, id) {
+                console.log(v);
+                console.log(id)
+                for (let index = 0; index < v.length; index++) {
+                    if (v[index]['id'] == id) {
+                        console.log('se encontro')
+                        return v[index];
+                    }
+                }
+                console.log('no se encontro')
+            }
 
+            function contenedoresproducto(v, cp) {
+                let cps = [];
+                for (let i = 0; i < cp.length; i++) {
+                    const e = cp[i];
+                    //   console.log('dentro de la funcion')
+                    // console.log(e);
+                    let p = buscarId(v, e['contenedor_id']);
+                    cps.push(p);
+                }
+                console.log(cps);
+                return cps;
+            }
+            //MODAL PRECIO
+            $('.btn-precio').click(function() {
+                const id = parseInt($(this).attr('id'));
+                let p = @json($productos->all()); //TODOS LOS PRODUCTOS
+                let producto = buscarId(p, id); //PRODUCTO
+                let precios = JSON.parse($(this).attr('data-precio')); //PRECIOS DEL CONTENEDOR PRODUCTO
+                let contenedoresp = JSON.parse($(this).attr(
+                    'data-contenedores')); //TABLA INTERMEDIA CONTENEDOR PRODUCTO
+                let contenedores = @json($contenedors->all()); //NO LO USARE
+                let cps = contenedoresproducto(contenedores,
+                contenedoresp); //nombres de los contenedores del producto
+                //construir en el DOM
+                $select = $('#scontenedores');
+                $select.empty();
+                $select.append($("<option>", {
+                    value: 0,
+                    text: 'Unitario'
+                }));
+                for (let i = 0; i < cps.length; i++) {
+                    const element = cps[i];
+                    $select.append($("<option>", {
+                        value: element['id'],
+                        text: element['nombre']
+                    }));
+                }
+//precio actual
+$('#pactual').text(1);
+//precio anterior
+$('#panterior').text(2);
+//precio sugerido
+$('#psugerido').text(3)
+                //  $('#modal-precio').append(texto);
+
+
+                console.log(producto);
+                console.log(precios);
+                console.log('contenedores producto');
+                console.log(cps);
+            });
+            //PREVIEW DE LA IMAGEN QUE SE CAMBIARÁ ANTES DE ACTUALIZAR EL PRODUCTO
+            function filePreview(input) {
+                if (input.files && input.files[0]) {
+                    console.log('entra al if');
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        //    $('#preview + img').remove();
+                        console.log('entra');
+                        $('#imagenPrevisualizacion2').attr('src', e.target.result);
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                } else {
+                    console.log('no entra al if');
+                }
+            }
+            $("#imagen").change(function() {
+                console.log('cambia foto');
+                filePreview(this);
+            });
+            //RELLENAR CAMPOS DEL MODAL PARA ACTUALIZAR UN PRODUCTO
+            $('.btn-edit').click(function() {
+                //console.log('click boton modal');
+                //$("#modalEditarProducto").modal('show');
+                const id = parseInt($(this).attr('id'));
+                const p = {!! json_encode($productos->all()) !!};
+                const pr = p[id - 1];
+                console.log('abriendo modal');
+                $("#modalEditarProducto").find('#nombre').val(pr['nombre']);
+                $("#modalEditarProducto").find('#contenido').val(pr['contenido']);
+                $("#modalEditarProducto").find('#tematica').val(pr['tematica_id']);
+                $("#modalEditarProducto").find('#tipop').val(pr['tipo_producto_id']);
+                $("#modalEditarProducto").find('#imagenPrevisualizacion2').attr('src', pr['imagen']);
+                $('#form-update').attr('action', "{{ url('/producto') }}/" + pr['id']);
+                //  $('#modalEditarProducto').find()
+            });
 
             //cloudinary.url().transformation(new Transformation().quality(60)).imageTag(url);
 

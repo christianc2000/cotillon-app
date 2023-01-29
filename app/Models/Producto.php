@@ -12,8 +12,7 @@ class Producto extends Model
         'nombre',
         'imagen',
         'contenido',
-        'stockVentaUnitario',
-        'stockReservaUnitario',
+        'stock',
         'tematica_id',
         'tipo_producto_id'
     ];

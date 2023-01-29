@@ -21,6 +21,11 @@ class ContenedorProductoSeeder extends Seeder
                 'contenedor_id' => 2
             ],
             [
+                'cantidadProducto' => 50,
+                'producto_id' => 1,
+                'contenedor_id' => 3
+            ],
+            [
                 'cantidadProducto' => 15,
                 'producto_id' => 2,
                 'contenedor_id' => 3

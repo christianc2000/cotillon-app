@@ -11,7 +11,8 @@
 @stop
 
 @section('css')
-    <link rel="stylesheet" href="/css/admin_custom.css">
+   <!-- <link rel="stylesheet" href="/css/admin_custom.css">-->
+    <link rel="stylesheet" href="{{ URL::asset('css/app.css') }}">
 @stop
 
 @section('js')
