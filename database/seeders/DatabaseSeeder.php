@@ -20,10 +20,9 @@ class DatabaseSeeder extends Seeder
        // $this->call(UbicacionSeeder::class);
         $this->call(TipoProductoSeeder::class);
         $this->call(ProductoSeeder::class);
+        $this->call(ContenidoSeeder::class);
         //$this->call(UbicacionProductoSeeder::class);
         $this->call(PrecioSeeder::class);
-        $this->call(ContenedorSeeder::class);
-        $this->call(ContenedorProductoSeeder::class);
         $this->call(VencimientoSeeder::class);
     }
 }

@@ -323,11 +323,11 @@ return [
             'icon'    => 'fas fa-fw fa-birthday-cake',
             'submenu' => [
                 [
-                    'text' => 'Lista de Productos',
+                    'text' => 'Productos',
                     'url'  => '/producto',
                 ],
                 [
-                    'text'    => 'Contenedor',
+                    'text'    => 'Producto Contenedor',
                     'url'     => '#',
                 ],
                 [

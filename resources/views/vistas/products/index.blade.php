@@ -15,33 +15,22 @@
                     <h5 id="exampleModalLabel">PRECIO PRODUCTO</h1>
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-                <form id="form-update" method="POST">
+                <form id="form-precio" method="POST">
                     @csrf
                     <div class="modal-body" id="modal-precio">
-                        <x-adminlte-select id="scontenedores" name="contenedor_producto_id" label="CONTENEDORES"
-                            label-class="text-lightblue" igroup-size="lg" style="text-size:10px">
-                            <x-slot name="prependSlot">
-                                <div class="input-group-text bg-gradient-info">
-                                    <i class="fa fa-solid fa-calendar"></i>
-                                </div>
-                            </x-slot>
-                            <!--  <button class="btn btn-success" type="submit">OK</button>-->
-                        </x-adminlte-select>
                         <div class="row">
-                            <div class="col-4">
-                                <label  for="">Precio Actual</label>
+                            <div class="col-6">
+                                <label for="">Precio Actual</label>
                                 <p type="text" class="form-control" id="pactual" name='precioActual'>
                             </div>
-                            <div class="col-4">
-                                <label  for="">Precio Anterior</label>
-                                <p type="text" class="form-control" id="panterior" name='precioAnterior'>
-                            </div>
-                            <div class="col-4">
-                                <label  for="">Precio Sugerido</label>
+                            <div class="col-6">
+                                <label for="">Precio Sugerido</label>
                                 <p type="text" class="form-control" id="psugerido" name='precioSugerido'>
                             </div>
-                        </div>
 
+                        </div>
+                        <label for="">Nuevo Precio (Bs)</label>
+                        <input type="number" min="1" step="any" class="form-control" name="precio">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -142,8 +131,9 @@
             <table id="productos" class="table table-striped" style="width:100%; font-size: 14px;">
                 <thead>
                     <tr style="background: #6C648B; color: white">
+                        <th style="width: 1O%">ID</th>
                         <th style="width: 15%">PRODUCTO</th>
-                        <th style="width: 13%">CONTENIDO</th>
+
                         <th style="width: 8%">STOCK</th>
                         <th style="width: 15%">TEMÁTICA</th>
                         <th style="width: 8%">PRECIO(Bs)</th>
@@ -155,18 +145,14 @@
 
                     @foreach ($productos as $producto)
                         <tr>
+                            <td>{{ $producto->id }}</td>
                             <td>{{ $producto->nombre }}</td>
-                            <td>{{ $producto->contenido }}</td>
                             <td>
                                 {{ $producto->stock }}
                             </td>
                             <td>{{ $producto->tematica->nombre }}</td>
                             <td>
-                                @if (count($producto->precios) > 0)
-                                    {{ $producto->precios->where('habilitado', true)->first()->precio }}
-                                @else
-                                    0
-                                @endif
+                                {{ $producto->precios->where('habilitado', true)->first()->precio }}
                             </td>
                             <td>
                                 <div style="align-items: center; height: 100px;width: 90%">
@@ -192,9 +178,8 @@
                                     </div>
                                     <div class="caja">
                                         <button type="button" class="btn btn-precio" id="{{ $producto->id }}"
-                                            data-contenedores="{{ $producto->contenedorProductos }}"
-                                            data-precio="{{ $producto->precios }}" data-toggle="modal"
-                                            data-target="#modalPrecioProducto"
+                                            data-precio="{{ $producto->precios->where('habilitado', true)->first() }}"
+                                            data-toggle="modal" data-target="#modalPrecioProducto"
                                             style="background: #FBA100; border: white; width: 100%">
                                             <i class="fa fa-dollar-sign fa-1x" style="color:black"></i>
                                         </button>
@@ -372,45 +357,7 @@
                 console.log(cps);
                 return cps;
             }
-            //MODAL PRECIO
-            $('.btn-precio').click(function() {
-                const id = parseInt($(this).attr('id'));
-                let p = @json($productos->all()); //TODOS LOS PRODUCTOS
-                let producto = buscarId(p, id); //PRODUCTO
-                let precios = JSON.parse($(this).attr('data-precio')); //PRECIOS DEL CONTENEDOR PRODUCTO
-                let contenedoresp = JSON.parse($(this).attr(
-                    'data-contenedores')); //TABLA INTERMEDIA CONTENEDOR PRODUCTO
-                let contenedores = @json($contenedors->all()); //NO LO USARE
-                let cps = contenedoresproducto(contenedores,
-                contenedoresp); //nombres de los contenedores del producto
-                //construir en el DOM
-                $select = $('#scontenedores');
-                $select.empty();
-                $select.append($("<option>", {
-                    value: 0,
-                    text: 'Unitario'
-                }));
-                for (let i = 0; i < cps.length; i++) {
-                    const element = cps[i];
-                    $select.append($("<option>", {
-                        value: element['id'],
-                        text: element['nombre']
-                    }));
-                }
-//precio actual
-$('#pactual').text(1);
-//precio anterior
-$('#panterior').text(2);
-//precio sugerido
-$('#psugerido').text(3)
-                //  $('#modal-precio').append(texto);
 
-
-                console.log(producto);
-                console.log(precios);
-                console.log('contenedores producto');
-                console.log(cps);
-            });
             //PREVIEW DE LA IMAGEN QUE SE CAMBIARÁ ANTES DE ACTUALIZAR EL PRODUCTO
             function filePreview(input) {
                 if (input.files && input.files[0]) {
@@ -436,7 +383,7 @@ $('#psugerido').text(3)
                 //$("#modalEditarProducto").modal('show');
                 const id = parseInt($(this).attr('id'));
                 const p = {!! json_encode($productos->all()) !!};
-                const pr = p[id - 1];
+                const pr = buscarId(p, id);
                 console.log('abriendo modal');
                 $("#modalEditarProducto").find('#nombre').val(pr['nombre']);
                 $("#modalEditarProducto").find('#contenido').val(pr['contenido']);
@@ -444,9 +391,22 @@ $('#psugerido').text(3)
                 $("#modalEditarProducto").find('#tipop').val(pr['tipo_producto_id']);
                 $("#modalEditarProducto").find('#imagenPrevisualizacion2').attr('src', pr['imagen']);
                 $('#form-update').attr('action', "{{ url('/producto') }}/" + pr['id']);
+                console.log('llena modal');
                 //  $('#modalEditarProducto').find()
             });
+            //MODAL PRECIO
+            $('.btn-precio').click(function() {
+                const id = parseInt($(this).attr('id'));
 
+                let precio = JSON.parse($(this).attr('data-precio')); //PRECIOS DEL CONTENEDOR PRODUCTO
+                console.log(precio);
+                //precio actual
+                $('#pactual').text(precio['precio']);
+                //precio sugerido
+                $('#psugerido').text(0); //falta completar precio sugerido
+                //  $('#modal-precio').append(texto);
+                $('#form-precio').attr('action', "{{ url('/producto') }}/" + id + "/precio");
+            });
             //cloudinary.url().transformation(new Transformation().quality(60)).imageTag(url);
 
             // Obtener referencia al input y a la imagen

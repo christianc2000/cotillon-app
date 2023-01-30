@@ -16,27 +16,41 @@ class PrecioSeeder extends Seeder
     {
         $precios = [
             [
-                'precio' => 15,
-                'tipoPrecio' => 'U', //UNITARIO
-                'producto_id' => 3,
+                'precio'=>13,
+                'fecha_finalizado'=>null,
+                'habilitado'=>true,
+                'producto_id'=>1
             ],
             [
-                'precio' => 12,
-                'fecha_finalizado'=>'2023-01-20',
+                'precio'=>318,
+                'fecha_finalizado'=>null,
+                'habilitado'=>true,
+                'producto_id'=>2
+            ],
+            [
+                'precio'=>13,
+                'fecha_finalizado'=>null,
+                'habilitado'=>true,
+                'producto_id'=>3
+            ],
+            [
+                'precio'=>15,
+                'fecha_finalizado'=>null,
+                'habilitado'=>true,
+                'producto_id'=>4
+            ],
+            [
+                'precio'=>14,
+                'fecha_finalizado'=>'2022-01-22',
                 'habilitado'=>false,
-                'tipoPrecio' => 'U', //UNITARIO
-                'producto_id' => 1,
+                'producto_id'=>5
             ],
             [
-                'precio' => 13,
-                'tipoPrecio' => 'U', //UNITARIO
-                'producto_id' => 1,
+                'precio'=>15,
+                'fecha_finalizado'=>null,
+                'habilitado'=>true,
+                'producto_id'=>5
             ],
-            [
-                'precio' => 15,
-                'tipoPrecio' => 'U', //UNITARIO
-                'producto_id' => 2,
-            ]
         ];
         foreach ($precios as $p) {
             Precio::create($p);

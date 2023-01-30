@@ -20,6 +20,7 @@ class CreateProductosTable extends Migration
             $table->string('contenido');
             $table->unsignedInteger('stock')->nullable();
             //$table->unsignedInteger('stockReservaUnitario')->nullable();
+            $table->boolean('contenedor');
             $table->foreignId('tematica_id')->references('id')->on('tematicas');
             $table->foreignId('tipo_producto_id')->references('id')->on('tipo_productos');
             $table->timestamps();

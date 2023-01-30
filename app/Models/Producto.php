@@ -13,27 +13,35 @@ class Producto extends Model
         'imagen',
         'contenido',
         'stock',
+        'contenedor',
         'tematica_id',
         'tipo_producto_id'
     ];
     //Relación de 1 a muchos
-    public function vencimientos(){
+    public function vencimientos()
+    {
         return $this->hasMany(Vencimiento::class);
     }
-    public function ubicacionProductos(){
-        return $this->hasMany(UbicacionProducto::class);
-    }
-    public function precios(){
+    public function precios()
+    {
         return $this->hasMany(Precio::class);
     }
-    public function contenedorProductos(){
-        return $this->hasMany(ContenedorProducto::class);
+
+    public function contenidosPadre()
+    {
+        return $this->hasMany(Contenido::class, 'id_padre', 'id');
+    }
+    public function contenidosHijo()
+    {
+        return $this->hasMany(Contenido::class, 'id_hijo', 'id');
     }
     //Relación de 1 a mucho inversa
-    public function tematica(){
+    public function tematica()
+    {
         return $this->belongsTo(Tematica::class);
     }
-    public function tipoProducto(){
+    public function tipoProducto()
+    {
         return $this->belongsTo(TipoProducto::class);
     }
 }

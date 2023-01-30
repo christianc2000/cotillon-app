@@ -12,14 +12,9 @@ class Precio extends Model
         'precio',
         'fecha_finalizado',
         'habilitado',
-        'tipoPrecio',
-        'producto_id',
-        'contenedor_producto_id'
+        'producto_id'
     ];
     //relación de 1 a mucho inversa
-    public function contenedorProducto(){
-        return $this->belongsTo(ContenedorProducto::class);
-    }
     public function producto(){
         return $this->belongsTo(Producto::class);
     }

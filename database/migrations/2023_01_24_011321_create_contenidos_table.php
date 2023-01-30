@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateContenedorsTable extends Migration
+class CreateContenidosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateContenedorsTable extends Migration
      */
     public function up()
     {
-        Schema::create('contenedors', function (Blueprint $table) {
+        Schema::create('contenidos', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
-            $table->string('descripcion');
+            $table->unsignedInteger('cantidad');
+            $table->foreignId('id_padre')->references('id')->on('productos');
+            $table->foreignId('id_hijo')->references('id')->on('productos');
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ class CreateContenedorsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('contenedors');
+        Schema::dropIfExists('contenidos');
     }
 }
