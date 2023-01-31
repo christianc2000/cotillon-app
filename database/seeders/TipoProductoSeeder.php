@@ -16,7 +16,7 @@ class TipoProductoSeeder extends Seeder
     {
         $tipoproductos = [
             [
-                'tipo' => 'otro'
+                'tipo' => 'Otro'
             ],
             [
                 'tipo' => 'Canasta'

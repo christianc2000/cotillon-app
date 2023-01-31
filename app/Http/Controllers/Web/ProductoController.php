@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Models\Contenedor;
+use App\Models\Contenido;
 use App\Models\Precio;
 use App\Models\Producto;
 use App\Models\Tematica;
@@ -92,7 +93,6 @@ class ProductoController extends Controller
             $p->update([
                 'nombre' => $request->nombre,
                 'contenido' => $request->contenido,
-                'stock' => 0,
                 'tematica_id' => $request->tematica_id,
                 'tipo_producto_id' => $request->tipo_producto_id
             ]);
@@ -102,8 +102,66 @@ class ProductoController extends Controller
     }
     public function show($id)
     {
+        $producto = Producto::findOrFail($id);
+        return view('vistas.products.show', compact('producto'));
+    }
+
+    public function storeContenedor(Request $request)
+    {
+        
+        $request->validate([
+            'nombre' => 'required|string',
+            'contenido' => 'required|string',
+            'tipo_producto_id' => 'required',
+            'id_hijo' => 'required',
+            'cantidad' => 'required',
+            'imagen' => 'image|mimes:jpg,jpeg,bmp,png|max:2048',
+        ]);
+        if ($request->hasFile('imagen')) {
+            //     $url = Storage::put('Productos', $request->file('imagen'));
+            $file = $request->file('imagen');
+            $extension = $file->getClientOriginalExtension();
+            $filename = time() . "." . $extension;
+            $file->move('Productos/', $filename);
+            $url = 'Productos/' . $filename;
+            $p = Producto::findOrFail($request->id_hijo);
+            $producto = Producto::create([
+                'nombre' => $request->nombre,
+                'contenido' => $request->contenido,
+                'tematica_id' => $p->tematica_id,
+                'imagen' => $url,
+                'contenedor' => true,
+                'stock' => 0,
+                'tipo_producto_id' => $request->tipo_producto_id,
+            ]);
+            Precio::create([
+                'precio' => 0,
+                'fecha_finalizado' => null,
+                'habilitado' => true,
+                'producto_id' => $producto->id
+            ]);
+            Contenido::create([
+                'cantidad' => $request->cantidad,
+                'id_padre' => $producto->id,
+                'id_hijo' => $p->id
+            ]);
+         
+            if(isset($request->vista)){
+                session()->flash('status', '¡Contenedor creado exitosamente!');
+               return redirect()->route('contenedor.index');
+            }else{
+                session()->flash('status', '¡Producto creado exitosamente!');
+                return redirect()->route('producto.index');
+            }
+           
+        }
+        
     }
     public function destroy($id)
     {
+        $producto=Producto::findOrFail($id);
+        $producto->delete();
+        session()->flash('eliminar', '¡Producto eliminado exitosamente!');
+        return redirect()->route('producto.index');
     }
 }

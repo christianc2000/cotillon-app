@@ -327,8 +327,8 @@ return [
                     'url'  => '/producto',
                 ],
                 [
-                    'text'    => 'Producto Contenedor',
-                    'url'     => '#',
+                    'text' => 'Contenedor',
+                    'url'  => '/contenedor',
                 ],
                 [
                     'text'    => 'Temática',

@@ -16,8 +16,8 @@ class CreateContenidosTable extends Migration
         Schema::create('contenidos', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('cantidad');
-            $table->foreignId('id_padre')->references('id')->on('productos');
-            $table->foreignId('id_hijo')->references('id')->on('productos');
+            $table->foreignId('id_padre')->references('id')->on('productos')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('id_hijo')->references('id')->on('productos')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

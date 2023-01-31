@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Web\ContenedorController;
 use App\Http\Controllers\Web\PrecioController;
 use App\Http\Controllers\Web\ProductoController;
 use Illuminate\Support\Facades\Route;
@@ -23,6 +24,9 @@ Route::get('/', function () {
 Route::group(['middleware' => ["auth:sanctum"]], function () {
    Route::resource('/producto',ProductoController::class)->names('producto');
    Route::post('/producto/{id}/precio',[PrecioController::class,'storePrecioProducto'])->name('producto.precio');
+   //CRUD PRODUCTO CONTENEDOR
+   Route::post('/productoContenedor',[ProductoController::class,'storeContenedor'])->name('producto.contenedor.store');
+   Route::resource('/contenedor',ContenedorController::class)->names('contenedor');
 });
 
 
